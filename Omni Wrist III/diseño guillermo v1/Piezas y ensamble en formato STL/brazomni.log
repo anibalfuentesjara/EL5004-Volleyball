@@ -1,0 +1,31 @@
+Solid Edge Translation to STL
+Date: Monday,April 22,2019 11:12PM
+Source File:C:\Users\GUILLERMOTD\Desktop\Omni Wrist\brazomni.par
+Output File: C:\Users\GUILLERMOTD\Desktop\Omni Wrist\Piezas y ensamble en formato STL\brazomni.stl
+Source System: SOLID EDGE
+
+Hardware:
+Processor: Intel(R) Celeron(R) CPU  N2830  @ 2.16GHz
+Operating System: Windows 8
+Memory: 3.88 GB
+
+Software Information:
+Parasolid Version: 30.0.167
+Bodyshop Version: 30.0.81
+Solid Edge Version: 110.00.00.107 x64
+
+STL Export Options:
+Output File Format:BINARY
+Export Displayed Parts:Off
+structureOption: Monolithic
+Export Units:Inch
+Export Tolerance Value:0.050000
+Export Tolerance Type:Custom
+Export Surface Plane Angle Value:0.523599
+
+Translation progress:
+Phase 1 of 2 Fetching Parasolid information...
+Phase 2 of 2 Translating Parasolid to foreign data types...
+Number of STL file Created : 1
+Translation process completed
+Time required to translate:00 : 00 : 00
