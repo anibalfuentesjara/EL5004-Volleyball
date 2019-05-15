@@ -17,8 +17,8 @@ const int pulse_1 = 11;        // pulse - driver stepper 1
 //FIXED VARIABLES.
 
 //Pulse per revolution
-float pulse_per_rev = 10000.0;
-float rps = 0.10;
+float pulse_per_rev = 2000.0;
+float rps = 4.0;
 long pulseDelay;
 
 // the setup function runs once when you press reset or power the board
@@ -34,15 +34,17 @@ void setup() {
 
   // delay
   pulseDelay = delayValue(pulse_per_rev,rps);
-  Serial.print(pulseDelay);
+  Serial.print("Delay: ");
+  Serial.println(pulseDelay);
 }
 
 // the loop function runs over and over again forever
 void loop() {
   digitalWrite(pulse_1, HIGH);   // turn the pulse_1 on (HIGH is the voltage level)
-  delay(pulseDelay);                // wait for a delay 1 time
+  delayMicroseconds(pulseDelay);                // wait for a delay 1 time
   digitalWrite(pulse_1, LOW);    // turn the pulse_1 off by making the voltage LOW
-  delay(pulseDelay);                // wait for a delat 1 time
+  delayMicroseconds(pulseDelay);                // wait for a delat 1 time
+  Serial.println(pulseDelay);
 }
 
 
@@ -50,15 +52,17 @@ void loop() {
 //Function that calculates the delay value for a certain number of rps.
 long delayValue (float pulses_per_revolution, float rps){
   // Variables definition
-  long delays;
-  long delayms;
+  float delays;
+  float delayms;
   float pulses_per_second;
+  long delaymslong;
     
   //pulses per second.
   pulses_per_second = pulses_per_revolution * rps;
   //duration of values LOW or HIGH.
-  delays = (long) 1 / (2*pulses_per_second);
+  delays = 1.0 / (2.0*pulses_per_second);
   //conversion to miliseconds
-  delayms = delays * 1000;
-  return delayms;
+  delayms = delays * 1000000.0;
+  delaymslong = (long) delayms;
+  return delaymslong;
 }
