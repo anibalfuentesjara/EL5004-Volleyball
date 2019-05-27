@@ -4,27 +4,36 @@ distancia_x_omni = -9;
 altura_omni = 1;
 
 distancia_persona = 4.5;
-altura_persona = 1.9;
-altura_sobre_red = 5;
+altura_persona = 1.8;
+altura_sobre_red = 0.5;
 parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red);
 
 x=distancia_x_omni:0.1:distancia_persona;
 y = parabola(1)*x.^2 + parabola(2)*x + parabola(3);
-angulo_rad = 2*parabola(1)*distancia_x_omni + parabola(2);
-angulo = angulo_rad * 180/pi
+%Variaciones de posicion
+deltaY = y(2)-y(1);
+deltaX = x(2)-x(1);
+%Pendiente.
+m = deltaY/deltaX;
+%Angulo
+angulo_rad = atan(m);
+angulo = angulo_rad * 180/pi;
 
 gravedad = -9.81;
 v_0 = sqrt((0.5*gravedad*(distancia_persona-distancia_x_omni)^2)/...
     (cos(angulo_rad)^2*((altura_persona-altura_omni)-...
-    tan(angulo_rad)*(distancia_persona-distancia_x_omni))))
+    tan(angulo_rad)*(distancia_persona-distancia_x_omni))));
+
+disp(strcat('Velocidad necesaria (m/s):',string(v_0)))
+disp(strcat('Angulo necesario (°):',string(angulo)))
 
 figure(1)
 hold on
 xlim([-10,10])
-ylim([-0.1,8])
-bar([distancia_persona],[altura_persona],'r')
-bar([0],[altura_red],'k')
-bar([distancia_x_omni],[altura_omni],'g')
+ylim([0,max(y)+0.3])
+bar([distancia_persona],[altura_persona],'r','BarWidth', 0.3)
+bar([0],[altura_red],'k','BarWidth', 0.2)
+bar([distancia_x_omni],[altura_omni],'g','BarWidth', 0.3)
 comet(x,y)
 
 
