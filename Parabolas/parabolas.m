@@ -3,8 +3,8 @@ altura_red = 2.43;
 distancia_x_omni = -9;
 altura_omni = 1;
 
-distancia_persona = 4.5;
-altura_persona = 1.8;
+distancia_persona = 3.5;
+altura_persona = 0.5;
 altura_sobre_red = 0.5;
 parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red);
 
@@ -24,17 +24,27 @@ v_0 = sqrt((0.5*gravedad*(distancia_persona-distancia_x_omni)^2)/...
     (cos(angulo_rad)^2*((altura_persona-altura_omni)-...
     tan(angulo_rad)*(distancia_persona-distancia_x_omni))));
 
-disp(strcat('Velocidad necesaria (m/s):',string(v_0)))
-disp(strcat('Angulo necesario (°):',string(angulo)))
+velocidad = strcat('Velocidad necesaria (m/s):',string(v_0));
+ang = strcat('Angulo necesario (°):',string(angulo));
+disp(velocidad)
+disp(ang)
 
-figure(1)
+figure()
 hold on
 xlim([-10,10])
 ylim([0,max(y)+0.3])
 bar([distancia_persona],[altura_persona],'r','BarWidth', 0.3)
 bar([0],[altura_red],'k','BarWidth', 0.2)
 bar([distancia_x_omni],[altura_omni],'g','BarWidth', 0.3)
+%Identificadores
+txt1 = '\leftarrow Omniwrist'; text(distancia_x_omni,altura_omni,txt1)
+txt2 = '\leftarrow Malla'; text(0,altura_red,txt2)
+txt3 = char(strcat("\leftarrow Recepción.Distancia:",string(distancia_persona), 'm')); text(distancia_persona,altura_persona,txt3)
+%Texto de velocidad y angulo
+text(max(x),max(y),char(velocidad))
+text(max(x),max(y)-0.14,char(ang))
 comet(x,y)
+hold off
 
 
 function parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red)
