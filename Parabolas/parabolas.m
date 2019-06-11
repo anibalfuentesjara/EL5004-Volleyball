@@ -4,8 +4,8 @@ distancia_x_omni = -9;
 altura_omni = 1;
 
 distancia_persona = 4.5;
-altura_persona = 1.9;
-altura_sobre_red = 5;
+altura_persona = 2.2;
+altura_sobre_red = 2.5;
 parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red);
 
 x=distancia_x_omni:0.1:distancia_persona;
@@ -25,7 +25,9 @@ ylim([-0.1,8])
 bar([distancia_persona],[altura_persona],'r')
 bar([0],[altura_red],'k')
 bar([distancia_x_omni],[altura_omni],'g')
+title("Velocidad: "+string(v_0)+" [m/s], ángulo: "+string(angulo)+"°")
 comet(x,y)
+
 
 
 function parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red)
