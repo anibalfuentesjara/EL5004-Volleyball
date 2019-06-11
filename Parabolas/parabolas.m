@@ -3,15 +3,9 @@ altura_red = 2.43;
 distancia_x_omni = -9;
 altura_omni = 1;
 
-<<<<<<< HEAD
-distancia_persona = 4.5;
-altura_persona = 2.2;
-altura_sobre_red = 2.5;
-=======
 distancia_persona = 3.5;
 altura_persona = 0.5;
 altura_sobre_red = 0.5;
->>>>>>> e177a3c3f2639a95c4e83eb9cd6b00ca4e6142a0
 parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red);
 
 x=distancia_x_omni:0.1:distancia_persona;
@@ -38,13 +32,6 @@ disp(ang)
 figure()
 hold on
 xlim([-10,10])
-<<<<<<< HEAD
-ylim([-0.1,8])
-bar([distancia_persona],[altura_persona],'r')
-bar([0],[altura_red],'k')
-bar([distancia_x_omni],[altura_omni],'g')
-title("Velocidad: "+string(v_0)+" [m/s], ángulo: "+string(angulo)+"°")
-=======
 ylim([0,max(y)+0.3])
 bar([distancia_persona],[altura_persona],'r','BarWidth', 0.3)
 bar([0],[altura_red],'k','BarWidth', 0.2)
@@ -56,10 +43,8 @@ txt3 = char(strcat("\leftarrow Recepción.Distancia:",string(distancia_persona), 
 %Texto de velocidad y angulo
 text(max(x),max(y),char(velocidad))
 text(max(x),max(y)-0.14,char(ang))
->>>>>>> e177a3c3f2639a95c4e83eb9cd6b00ca4e6142a0
 comet(x,y)
 hold off
-
 
 
 function parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red)
