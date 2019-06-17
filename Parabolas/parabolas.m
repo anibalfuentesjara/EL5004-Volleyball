@@ -1,10 +1,10 @@
 global altura_red distancia_x_omni altura_omni
-altura_red = 2.43;
-distancia_x_omni = -9;
+altura_red = 2.6;
+distancia_x_omni = -10.1048;
 altura_omni = 1;
 
-distancia_persona = 3.5;
-altura_persona = 0.5;
+distancia_persona = 3.008;
+altura_persona = 1;
 altura_sobre_red = 0.5;
 parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red);
 
