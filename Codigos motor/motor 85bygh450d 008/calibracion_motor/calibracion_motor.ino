@@ -1,5 +1,10 @@
 /*
- *   Connections:
+ * Movimiento de motores stepper asociados al omniwrist.
+ * Beauchef Proyecta: Proyecto -> Lanzador Volleyball.
+ */
+
+/*
+ *Stepper Motor Connections:
   Motor-Driver
   A+ red
   A- green
@@ -8,50 +13,45 @@
  * 
  */
 
+//Inclusion de la libreria.
 #include <AccelStepper.h>
 
 // Variables de fines de carrera
-const int button1Pin = 2;     // the number of the pushbutton pin
-int button1State = 0;         // variable for reading the pushbutton status
+const int interruptPin1 = 2;    // Numero del pin a interrumpir. Fin de carrera 0 grados.
+const int interruptPin2 = 3;    // Numero del pin a interrumpir. Fin de carrera 180 grados.
+int button1State = 0;           // variable for reading the pushbutton status
 
-// Define some steppers and the pins the will use
+//Variables del motor.
+float pulse_per_rev = 5000;   // Numero de pulsos por revolucion (fijar esto mismo en el driver).
 
-// USE: AccelStepper stepper(AccelStepper::FULL2WIRE, direction, pulse);
-
-//AccelStepper stepper2(AccelStepper::FULL2WIRE, 6, 7);
-//AccelStepper stepper2(AccelStepper::FULL2WIRE, 8, 9);
-AccelStepper stepper3(AccelStepper::FULL2WIRE, 10, 11);
-float pulse_per_rev = 5000;
 
 //Variables para el movimiento
 boolean activar_calibracion = true;
 int directionToGo = -1;
 float targetAngle = 90;
 
+// Definir el objeto stepper3 correspondiente a la clase AccelStepper.
+// USE: AccelStepper stepper(AccelStepper::FULL2WIRE, direction, pulse);
+// Pines: 10 -> Direccion;
+//        11 -> Pulso;
+AccelStepper stepper3(AccelStepper::FULL2WIRE, 10, 11);
+
 void setup()
 {  
     // Pin button as input
-    pinMode(button1Pin, INPUT);
+    pinMode(interruptPin1, INPUT);
   
     // Interrupciones
-    attachInterrupt(digitalPinToInterrupt(button1Pin), activationFinDeCarrera,FALLING);
-  
-  /*
-    stepper1.setMaxSpeed(200.0);
-    stepper1.setAcceleration(100.0);
-    stepper1.moveTo(24);
+    //Interrupcion 0 grados.
+    attachInterrupt(digitalPinToInterrupt(interruptPin1), activationFinDeCarrera0,FALLING);
+    //Interrupcion 180 grados.
+    attachInterrupt(digitalPinToInterrupt(interruptPin2), activationFinDeCarrera1,FALLING);
     
-    stepper2.setMaxSpeed(300.0);
-    stepper2.setAcceleration(100.0);
-    stepper2.moveTo(1000000);*/
-
     float angle = 360;
-    
+    // Configuraciones iniciales del motor.
     stepper3.setMaxSpeed(10000.0);
     stepper3.setAcceleration(10000.0);
-    stepper3.moveTo(angle*pulse_per_rev / 180); 
-
-    calibrarMotor();
+    // stepper3.moveTo(angle*pulse_per_rev / 180);  
 }
 
 void loop()
@@ -72,17 +72,33 @@ void loop()
     }
 }
 
+
+
+//Metodos.
+
+//Metodos para la calibracion del motor.
 void calibrarMotor()
 {
+  //Lentamente girar hasta llegar al fin de carrera.
   stepper3.setMaxSpeed(1000.0);
   stepper3.moveTo(3600*pulse_per_rev / 180);  
   stepper3.run();
 }
 
-void activationFinDeCarrera()
+// Metodos interrupciones.
+//Activacion fin de carrera 0 grados.
+void activationFinDeCarrera0()
 {
   stepper3.setCurrentPosition(0);
   stepper3.moveTo(0);
   stepper3.setMaxSpeed(10000.0);
   activar_calibracion = false;
+}
+
+//Activacion fin de carrera 180 grados.
+void activationFinDeCarrera180()
+{
+  stepper3.setCurrentPosition(180);
+  stepper3.moveTo(180);
+  stepper3.setMaxSpeed(10000.0);
 }
