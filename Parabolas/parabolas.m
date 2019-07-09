@@ -1,34 +1,41 @@
+% Parametros fijos
 global altura_red distancia_x_omni altura_omni
 altura_red = 2.6;
-distancia_x_omni = -10.1048;
+distancia_x_omni = -10;
 altura_omni = 1;
 
-distancia_persona = 3.008;
+% Parametros variables
+distancia_persona = 3;
 altura_persona = 1;
 altura_sobre_red = 0.5;
+
+% Calculo de parabola mediante polyfit
 parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red);
 
-x=distancia_x_omni:0.1:distancia_persona;
+% Vectores x e y de trayectoria de la parabola
+x = distancia_x_omni:0.1:distancia_persona;
 y = parabola(1)*x.^2 + parabola(2)*x + parabola(3);
-%Variaciones de posicion
-deltaY = y(2)-y(1);
-deltaX = x(2)-x(1);
-%Pendiente.
-m = deltaY/deltaX;
-%Angulo
+
+% Pendiente de la parabola en el punto de lanzamiento.
+m = 2*parabola(1)*distancia_x_omni + parabola(2);
+
+% Angulo de elevacion
 angulo_rad = atan(m);
 angulo = angulo_rad * 180/pi;
 
+% Velocidad inicial
 gravedad = -9.81;
 v_0 = sqrt((0.5*gravedad*(distancia_persona-distancia_x_omni)^2)/...
     (cos(angulo_rad)^2*((altura_persona-altura_omni)-...
     tan(angulo_rad)*(distancia_persona-distancia_x_omni))));
 
+% Imprimir en pantalla angulo de elevacion y velocidad inicial necesaria
 velocidad = strcat('Velocidad necesaria (m/s):',string(v_0));
 ang = strcat('Angulo necesario (°):',string(angulo));
 disp(velocidad)
 disp(ang)
 
+%Grafico dinamico de la trayectoria
 figure()
 hold on
 xlim([-10,10])
@@ -46,8 +53,8 @@ text(max(x),max(y)-0.14,char(ang))
 comet(x,y)
 hold off
 
-
 function parabola = calcular_parabola(distancia_persona, altura_persona, altura_sobre_red)
+%Calcula la parabola que debe seguir el balon
 global altura_red distancia_x_omni altura_omni
 punto_1 = [distancia_x_omni, altura_omni];
 punto_2 = [0, altura_red+altura_sobre_red];
