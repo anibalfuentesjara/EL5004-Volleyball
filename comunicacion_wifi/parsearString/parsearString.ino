@@ -1,3 +1,6 @@
+//Codigo para parsear un string que contiene tres floats separados por #, estos tres floats se guardan en el array datos.
+//El string corresponde a textoRecibido
+
 float datos[3];
 String textoRecibido = "1.32#23.5#44.5";
 
