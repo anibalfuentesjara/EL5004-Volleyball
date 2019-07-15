@@ -7,7 +7,7 @@ import yolov3 as yolo
 import cv2
 from courtTransformation import getCourtTransformMatrix,transform_point
 import time
-
+from centroidtracker import CentroidTracker
 
 def load_labels(path):
     with open(path) as file:
@@ -25,8 +25,8 @@ def load_model():
     # Create YOLO detector
     model = yolo.Detector(config_path=config_path,
                           weights_path=weights_path,
-                          input_size=(544, 608),
-                          conf_thresh=0.5,
+                          input_size=(416, 416),
+                          conf_thresh=0.25,
                           nms_thresh=0.4)
 
     if torch.cuda.is_available():
@@ -50,29 +50,30 @@ def main():
     if save_video:
         fourcc = cv2.VideoWriter_fourcc(*'MP4V')
         out = cv2.VideoWriter('mapeo.mp4', fourcc, 20.0, (2*shape_dibujo[1],shape_dibujo[0]))
-
+    ct = CentroidTracker()
     #Video volley
-    cap = cv2.VideoCapture('imagenes_videos/video_volley.mp4')
+    cap = cv2.VideoCapture('imagenes_videos/video_volley2.mp4')
     while(True):
+        time1= time.time()
         ret, image = cap.read()
 
         #Resize por hardcodeo de puntos
-        image = cv2.resize(image,(1920,1080))
+        #image = cv2.resize(image,(1920,1080))
 
         #detecciones
         detections = model(image)  
 
         #a veces falla por el video mal grabado uwu
-        try:     
-            transformation_matrix = getCourtTransformMatrix(image, img_dibujo)
-        except:
-            print('error (?)')
-            continue
+        #try:     
+        #    transformation_matrix = getCourtTransformMatrix(image, img_dibujo)
+        #except:
+         #   print('error (?)')
+          #  continue
 
         #same
-        if(transformation_matrix is None):
-            continue
-
+        #if(transformation_matrix is None):
+         #   continue
+        rects = []
         #si hay detecciones
         if len(detections) > 0:
             for i, (x1, y1, x2, y2, obj_conf, cls_conf, cls_pred) in enumerate(detections[0]):
@@ -80,25 +81,32 @@ def main():
                 y = round(y1.item())
                 w = round(x2.item() - x1.item())
                 h = round(y2.item() - y1.item())
-
+                rects.append((x1, y1, x2, y2))
                 #Dibujarlas
                 cv2.rectangle(image,(x,y),(x+w,y+h),(0,255,0),3)
 
                 #Dibujar puntos a dibujo
                 punto_cancha = np.array([x, y+h])
-                punto_proyectado = transform_point(punto_cancha, transformation_matrix)
-                cv2.circle(img_dibujo,(int(punto_proyectado[0]),int(punto_proyectado[1])), 10, (255,0,0), -1)
+                #punto_proyectado = transform_point(punto_cancha, transformation_matrix)
+                #cv2.circle(img_dibujo,(int(punto_proyectado[0]),int(punto_proyectado[1])), 10, (255,0,0), -1)
 
             
             #Realizar transformacion            
-            img_transformed = cv2.warpPerspective(image, transformation_matrix, (shape_dibujo[1],shape_dibujo[0]))
-
-        
+            #img_transformed = cv2.warpPerspective(image, transformation_matrix, (shape_dibujo[1],shape_dibujo[0]))
+        objects = ct.update(rects)
+        for (objectID, centroid) in objects.items():
+		# draw both the ID of the object and the centroid of the
+		# object on the output frame
+            text = "ID {}".format(objectID)
+          
+            cv2.putText(image, text, (centroid[0] - 10, centroid[1] - 10),
+               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            cv2.circle(image, (centroid[0], centroid[1]), 4, (0, 255, 0), -1)
         #Mostrar
         cv2.namedWindow( "Personas", cv2.WINDOW_NORMAL)
 
-        out_frame = np.hstack((img_transformed, img_dibujo))
-        cv2.imshow('Personas', out_frame)
+        #out_frame = np.hstack((img_transformed, img_dibujo))
+        cv2.imshow('Personas', image)
 
         if save_video:
             out.write(out_frame)
@@ -111,6 +119,7 @@ def main():
         
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+        print(time.time()-time1)
             
     cap.release()
     if save_video:

@@ -8,10 +8,6 @@ Pesos: https://drive.google.com/drive/folders/1hPUGl7ACIlWxsmZmfyyrUkmBOFc591Y6?
 - opencv
 - matplotlib
 
-## Librerias utilizadas Tracking (SORT)
-- numba
-- sklearn
-- filterpy
 
 ## Detección de Personas
 
