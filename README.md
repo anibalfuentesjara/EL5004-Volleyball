@@ -9,13 +9,28 @@ El repositorio cuenta con lo siguiente:
 
 - Códigos motor: códigos en arduino para el movimiento de los motores.
 
-### Trabajo en proceso
+- Person Volley: sistema de visión computacional desarrollado en python mediante la librería pytorch. Es el mismo que se adjunta en el github de visión.
 
+- Parabolas: cálculo de parábolas en el lanzamiento del balón.
+
+- Planos eléctricos y lista de materiales: lista de materiales y hardware eléctrico.
+
+- arduino_python: código de arduino que recibe señales de control desde python y mueve servomotores. Es usado en la demo con el modelo 3D impreso.
+
+- comunicacion_wifi: códigos para comunicación wifi entre python y arduino.
+
+- fin de carrera: códigos de fines de carrera.
 
 ## Google Drive
+
+Se presentan diversos videos grabados en prácticas del DR.
 
 https://drive.google.com/drive/folders/1kx5sKdnLs_XCrbL7N90hBN0Ewg4CD0pJ
 
 ## Sistema de vision
 
+Se presenta el github del sistema de visión y el google drive con los pesos utilizados por el sistema de visión.
+
 https://github.com/Jackerz312/Person_Volley
+
+https://drive.google.com/drive/folders/1hPUGl7ACIlWxsmZmfyyrUkmBOFc591Y6?usp=sharing
