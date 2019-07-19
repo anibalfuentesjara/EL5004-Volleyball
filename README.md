@@ -43,7 +43,7 @@ https://drive.google.com/drive/folders/1hPUGl7ACIlWxsmZmfyyrUkmBOFc591Y6?usp=sha
 
 Se realiza una remo con el modelo del omniwrist impreso en 3D. Para correr la demo el esquemático del circuito es el siguiente:
 
-https://github.com/anibalfuentesjara/EL5004-Volleyball/blob/master/demo/demo.png
+![Esquematico demo](https://github.com/anibalfuentesjara/EL5004-Volleyball/blob/master/demo/demo.png)
 
 Se debe tener cuidado de conectar cada servo en el pin correspondiente. El arduino debe estar conectado con el computador mediante usb. Se debe cargar en arduino el programa demo.ino de la carpeta demo, teniendo cuidado de tener conectado el servo 1 al pin 9 y el servo 2 al pin 10. Luego, existen dos programas de python, en la carpeta person_volley:
 
