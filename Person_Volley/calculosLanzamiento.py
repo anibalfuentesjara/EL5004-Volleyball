@@ -106,7 +106,7 @@ def angulos_motores(orientacion, elevacion):
 
     #Calcula el angulo alpha y beta (angulos respecto a la posicion default del omni-wrist)
     alpha = (np.arcsin(np.sin(theta*np.pi/180)*np.cos(phi*np.pi/180))/2)*180/np.pi
-    beta = (np.arcsin(np.sin(theta*np.pi/180)*np.sin(phi*np.pi/180)))*180/np.pi
+    beta = (np.arcsin(np.sin(theta*np.pi/180)*np.sin(phi*np.pi/180))/2)*180/np.pi
 
     #Calcula el angulo que se le indica al servomotor (considerando la posicion default de los servomotores)
     angulo_servo_1 = 92-alpha
